@@ -18,11 +18,12 @@ def game_scene():
   game = stage.Stage(ugame.display, 60)
   # Adding images to a list to display the first image in the pbm file.
   game.layers = [background]
+  # Adding the game variable to the game scene.
   game.render_block()
 
-# Using a while true loop to repeat my game forever until user turns it off.
-while True:
-  pass #Using as a placeholder
+    # Using a while true loop to repeat my game forever until user turns it off.
+ while True:
+    pass #Using as a placeholder
 
 if __name__ == "__main__":
   game_scene()
