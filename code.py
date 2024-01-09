@@ -22,7 +22,7 @@ def game_scene():
   game.render_block()
 
     # Using a while true loop to repeat my game forever until user turns it off.
- while True:
+while True:
     pass #Using as a placeholder
 
 if __name__ == "__main__":
