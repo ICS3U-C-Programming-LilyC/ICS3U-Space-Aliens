@@ -11,7 +11,7 @@ import ugame
 def game_scene():
     # Importing background image.
     image_bank_background = stage.Bank.from_bmp16("space_aliens_background.bmp")
-    # Importing sprite imagee.
+    # Importing sprite image.
     image_bank_sprites = stage.Bank.from_bmp16("space_aliens.bmp")
 
     # Created a grid for the image background, that is 10x8 of the 16x16 images in it.
@@ -21,7 +21,7 @@ def game_scene():
     # It will display 75 pixels to the right of the origin and 66 pixels down.
     ship = stage.Sprite(image_bank_sprites, 5, 75, 66)
 
-    # Game variable which will display on the PyBadge and refreshing it with 60 hertz.
+    # Game variable which will display on the PyBadge and refresh it with 60 hertz.
     game = stage.Stage(ugame.display, 60)
 
     # Adding images to a list to display the first image in the pbm file.
@@ -33,10 +33,10 @@ def game_scene():
     # Using a while True loop to repeat my game forever until the user turns it off.
 
     while True:
-        # Going to get uer input.
+        # Going to get user input.
 
         # Updating user game logic to proceed to the next step once the user carries out an action.
-        # Redraw sprites to move the sprite around and not effect the background which will not change.
+        # Redraw sprites to move the sprite around and not affect the background which will not change.
         game.render_sprites([ship])
         # Will wait until one 60th of a second has happened and then re-loop.
         # This will guarantee that we have a 60 second refresh rate for the background.
