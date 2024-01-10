@@ -15,7 +15,7 @@ def game_scene():
     # Created a grid for the image background, that is 10x8 of the 16x16 images in it.
     background = stage.Grid(image_bank_background, 10, 8)
 
-    # Game variable which will display on the PyBadge and refreshing it with 60 Hertez
+    # Game variable which will display on the PyBadge and refreshing it with 60 hertz.
     game = stage.Stage(ugame.display, 60)
 
     # Adding images to a list to display the first image in the pbm file.
@@ -24,10 +24,11 @@ def game_scene():
     # Adding the game variable to the game scene.
     game.render_block()
 
-    # Using a while true loop to repeat my game forever until user turns it off.
+    # Using a while True loop to repeat my game forever until the user turns it off.
 
     while True:
         pass  # Using as a placeholder
+
 
 if __name__ == "__main__":
     game_scene()
