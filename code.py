@@ -26,7 +26,6 @@ def game_scene():
 
     # Adding images to a list to display the first image in the pbm file.
     game.layers = [ship] + [background]
-    
 
     # Adding the game variable to the game scene.
     game.render_block()
@@ -35,13 +34,13 @@ def game_scene():
 
     while True:
         # Going to get uer input.
+
         # Updating user game logic to proceed to the next step once the user carries out an action.
         # Redraw sprites to move the sprite around and not effect the background which will not change.
         game.render_sprites([ship])
         # Will wait until one 60th of a second has happened and then re-loop.
-        # This gaurantees that we have a 60 second refresh rate for the background.
+        # This will guarantee that we have a 60 second refresh rate for the background.
         game.tick()
-
 
 
 if __name__ == "__main__":
