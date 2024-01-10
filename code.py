@@ -34,6 +34,40 @@ def game_scene():
 
     while True:
         # Going to get user input.
+        # Figuring out what buttons are being pressed on the PyBadge.
+        keys = ugame.buttons.get.pressed()
+
+        # If the A button is being pressed then it returns "A".
+        if keys & ugame.K_X:
+            print("A")
+
+        # If the B button is being pressed then it returns "B".
+        if keys & ugame.K_O:
+            print("B")
+
+        # If the START button is being pressed then it returns "Start".
+        if keys & ugame.K_START:
+            print("Start")
+
+        # If the SELECT button is being pressed then it returns "Select".
+        if keys & ugame.K_SELECT:
+            print("Select")
+
+        # If the right button is being pressed the it moves the ship right (by 1 pixel) from it's current position along the x direction.
+        if keys & ugame.K_RIGHT:
+            ship.move(ship.x + 1, ship.y)
+
+        # If the left button is being pressed the it moves the ship left (by 1 pixel) from it's current position along the y direction.
+        if keys & ugame.K_LEFT:
+            ship.move(ship.x, ship.y - 1)
+
+        # If the up button is being pressed the it moves the ship up (by 1 pixel) by decreasing the y direction.
+        if keys & ugame.K_UP:
+            ship.move(ship.x, ship.y - 1)
+
+        # If the down button is being pressed the it moves the ship down (by 1 pixel) by increasing the y direction.
+        if keys & ugame.K_DOWN:
+            ship.move(ship.x, ship.y + 1)
 
         # Updating user game logic to proceed to the next step once the user carries out an action.
         # Redraw sprites to move the sprite around and not affect the background which will not change.
