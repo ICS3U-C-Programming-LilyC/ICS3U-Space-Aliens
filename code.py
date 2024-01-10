@@ -35,7 +35,7 @@ def game_scene():
     while True:
         # Going to get user input.
         # Figuring out what buttons are being pressed on the PyBadge.
-        keys = ugame.buttons.get.pressed()
+        keys = ugame.buttons.get_pressed()
 
         # If the A button is being pressed then it returns "A".
         if keys & ugame.K_X:
