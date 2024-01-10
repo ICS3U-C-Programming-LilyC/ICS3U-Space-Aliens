@@ -3,14 +3,14 @@
 # Created by: Lily Carroll
 # This program is the "Dino Blaster" program on the PyBadge.
 # Importing Circuit Python libraries.
-import ugame
 import stage
+import ugame
 
 
 # This function is for my main game scene.
 def game_scene():
     # Importing background image.
-    image_bank_background = stage.Bank.from_bmp16("space_aliens_background")
+    image_bank_background = stage.Bank.from_bmp16("space_aliens_background.bmp")
     # Created a grid for the image background, that is 10x8 of the 16x16 images in it.
     background = stage.Grid(image_bank_background, 10, 8)
 
