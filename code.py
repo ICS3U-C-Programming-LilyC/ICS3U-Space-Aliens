@@ -8,8 +8,8 @@
 # Created by: Lily Carroll
 # This program is the "Dino Blaster" program on the PyBadge.
 # Importing Circuit Python libraries.
-import ugame
 import stage
+import ugame
 
 import constants
 
