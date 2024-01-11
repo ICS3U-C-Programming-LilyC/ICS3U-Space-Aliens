@@ -11,3 +11,12 @@ SCREEN_GRID_Y = 8
 SPRITE_SIZE = 16
 FPS = 60
 SPRITE_MOVEMENT_SPEED = 1
+
+# Creating a dictionary to keep track of when the buttons were last pressed, since we want to be able to shoot 60 missiles in 60 seconds.
+# This allows for the button to be pressed and released quicker to achieve this timing for 60 missiles in 60 seconds.
+button_state = {
+    "button_up" : "up",
+    "button_just_pressed" : "just_pressed",
+    "button_still_pressed" : "still_pressed",
+    "button_released" : "released"
+}
