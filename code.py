@@ -183,11 +183,23 @@ def game_scene():
         16,
     )
 
+    # Creating multiple laser sprites.
+    # Declaring a list for the 5 lasers.
+    lasers = []
+    # Using a For loop to create a new Sprite object from 0 lasers in the game to 8 lasers.
+    for laser_number in range(constants.TOTAL_NUMBER_OF_LASERS):
+        # Create a single laser sprite using the 10th image in the image bank and using these coordinates.
+        a_single_laser = stage.Sprite(image_bank_sprites, 10,
+                                      constants.OFF_SCREEN_X,
+                                      constants.OFF_SCREEN_Y)
+        # Appending the single laser to the list.
+        lasers.append(a_single_laser)
+
     # Game variable which will display on the PyBadge and refresh it with 60 hertz.
     game = stage.Stage(ugame.display, 60)
 
     # Adding images to a list to display the first image in the pbm file.
-    game.layers = [ship] + [alien] + [background]
+    game.layers = lasers + [ship] + [alien] + [background]
 
     # Adding the game variable to the game scene.
     game.render_block()
@@ -255,10 +267,33 @@ def game_scene():
         # Updating user game logic to proceed to the next step once the user carries out an action.
         # Using an if statement for when the button was just pressed, play the pew sound.
         if a_button == constants.button_state["button_just_pressed"]:
-            sound.play(pew_sound)
+            # Firing lasers from our range of lasers 0-5.
+            for laser_number in range(len(lasers)):
+                # Check each of the lasers x coordinate is less than 0.
+                if lasers[laser_number].x < 0:
+                    # Laser that is off the screen and move it to the ship sprite's coordinates.
+                    lasers[laser_number].move(ship.x, ship.y)
+                    # Play the pew sound.
+                    sound.play(pew_sound)
+                    # Break if there is ever a single laser that needs to be moved over onto the screen.
+                    break
+
+            # For loop to again loop through all of our lasers.
+            for laser_number in range(len(lasers)):
+                # Using an if statement to check if the laser is on the screen.
+                if lasers[laser_number].x > 0:
+                    # Then move the laser up 1 pixel by decreasing its y coordinate by 2 since y direction increases as you move down.
+                    lasers[laser_number].move(lasers[laser_number].x,
+                                              lasers[laser_number].y -
+                                              constants.LASER_SPEED)
+                    # Using an if statement to check if it's y location is less than off the top of the screen.
+                    if lasers[laser_number].y < constants.OFF_TOP_SCREEN:
+                        # Then move the laser back to that starting point (both negative x and y coordinates).
+                        lasers[laser_number].move(constants.OFF_SCREEN_X,
+                                                  constants.OFF_SCREEN_Y)
 
         # Redraw sprites to move the sprite around and not affect the background which will not change.
-        game.render_sprites([ship] + [alien])
+        game.render_sprites(lasers + [ship] + [alien])
         # Will wait until one 60th of a second has happened and then re-loop.
         # This will guarantee that we have a 60 second refresh rate for the background.
         game.tick()
