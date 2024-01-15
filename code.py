@@ -3,10 +3,79 @@
 # Created by: Lily Carroll
 # This program is the "Stellar Showdown" program on the PyBadge.
 # Importing Circuit Python libraries.
+import random
+import time
+import constants
 import stage
 import ugame
 
-import constants
+
+# This function is for my splash game scene.
+def splash_scene():
+    # Need to also download the sound file onto the PyBadge.
+    # Sound that will play when the splash scene is displayed on PyBadge.
+    coin_sound = open("coin.wav", "rb")
+    # To allow for the use of sound objects (audio).
+    sound = ugame.audio
+    # Stopping the sound.
+    sound.stop()
+    # Not allowing for the sound to be muted.
+    sound.mute(False)
+    # Playing the sound from the file.
+    sound.play(coin_sound)
+
+    # Importing background image (White Screen).
+    image_bank_mt_background = stage.Bank.from_bmp16("mt_game_studio.bmp")
+
+    # Adding a grid background image that is 10x8.
+    background = stage.Grid(
+        image_bank_mt_background, constants.SCREEN_X, constants.SCREEN_Y
+    )
+
+    # Used this program to split the image into tile:
+    # https://ezgif.com/sprite-cutter/ezgif-5-818cdbcc3f66.png
+    background.tile(2, 2, 0)  # blank white
+    background.tile(3, 2, 1)
+    background.tile(4, 2, 2)
+    background.tile(5, 2, 3)
+    background.tile(6, 2, 4)
+    background.tile(7, 2, 0)  # blank white
+
+    background.tile(2, 3, 0)  # blank white
+    background.tile(3, 3, 5)
+    background.tile(4, 3, 6)
+    background.tile(5, 3, 7)
+    background.tile(6, 3, 8)
+    background.tile(7, 3, 0)  # blank white
+
+    background.tile(2, 4, 0)  # blank white
+    background.tile(3, 4, 9)
+    background.tile(4, 4, 10)
+    background.tile(5, 4, 11)
+    background.tile(6, 4, 12)
+    background.tile(7, 4, 0)  # blank white
+
+    background.tile(2, 5, 0)  # blank white
+    background.tile(3, 5, 0)
+    background.tile(4, 5, 13)
+    background.tile(5, 5, 14)
+    background.tile(6, 5, 0)
+    background.tile(7, 5, 0)  # blank white
+
+    # Game variable which will display on the PyBadge and refresh it with 60 hertz.
+    game = stage.Stage(ugame.display, constants.FPS)
+
+    # Adding images from our files that were downloaded to a list to display them on the PyBadge.
+    game.layers = [background]
+
+    # Adding the game variable to the game scene.
+    game.render_block()
+
+    # Using a while True loop to repeat my game forever until the user turns it off (gaming loop).
+    while True:
+        # Waiting 2 seconds before going to the menu scene.
+        time.sleep(2.0)
+        menu_scene()
 
 
 # This function is for my menu game scene.
@@ -24,7 +93,7 @@ def menu_scene():
     # Displaying the text 20 pixels over and 10 pixels down from the origin.
     text1.move(20, 10)
     # Text message that is displayed.
-    text1.text("MT Game Studios")
+    text1.text("LC Studios")
     # Appending the text message to the list.
     text.append(text1)
 
@@ -88,7 +157,16 @@ def game_scene():
     sound.mute(False)
 
     # Created a grid for the image background, that is 10x8 of the 16x16 images in it.
-    background = stage.Grid(image_bank_background, 10, 8)
+    background = stage.Grid(
+        image_bank_background, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
+    )
+
+    # For loop that will move along the x-axis inside the constant SCREEN_GRID_X (10 pixels in total).
+    for x_location in range(constants.SCREEN_GRID_X):
+        # Nested for loop that will move along the y-axis inside the constant SCREEN_GRID_Y (8 pixels in total).
+        for y_location in range(constants.SCREEN_GRID_Y):
+            tile_picked = random.randint(1, 3)
+            background.tile(x_location, y_location, tile_picked)
 
     # Creating a single sprite which will display the 5th image in the file (ship).
     # It will display 75 pixels to the right of the origin and 66 pixels down.
@@ -187,4 +265,4 @@ def game_scene():
 
 
 if __name__ == "__main__":
-    menu_scene()
+    splash_scene()
