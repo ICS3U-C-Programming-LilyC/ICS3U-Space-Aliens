@@ -8,6 +8,7 @@ import time
 import constants
 import stage
 import ugame
+import supervisor
 
 
 # This function is for my splash game scene.
@@ -145,7 +146,7 @@ def game_scene():
     score_text.clear()
     # Moving our cursor to the origin.
     score_text.cursor(0,0)
-    # Moving where the score is displayed shlightly down.
+    # Moving where the score is displayed slightly down.
     score_text.move(1,1)
     # Printing the user's score to the Pybadge.
     score_text.text("Score: {0}".format(score))
@@ -363,7 +364,7 @@ def game_scene():
                     score_text.clear()
                     # Moving our cursor to the origin.
                     score_text.cursor(0,0)
-                    # Moving where the score is displayed shlightly down.
+                    # Moving where the score is displayed slightly down.
                     score_text.move(1,1)
                     # Displaying the score on the PyBadge.
                     score_text.text("Score: {0}".format(score))
@@ -393,7 +394,7 @@ def game_scene():
                             # Making both the laser and alien disappear off the screen after colliding.
                             aliens[alien_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
                             lasers[laser_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                            # Stoping all sound effects.
+                            # Stopping all sound effects.
                             sound.stop()
                             # Playing the explosion sound.
                             boom_sound = open("boom.wav", "rb")
@@ -408,7 +409,7 @@ def game_scene():
                             score_text.clear()
                             # Moving our cursor to the origin.
                             score_text.cursor(0,0)
-                            # Moving where the score is displayed shlightly down.
+                            # Moving where the score is displayed slightly down.
                             score_text.move(1,1)
                             # Displaying the score on the PyBadge.
                             score_text.text("Score: {0}".format(score))
@@ -419,11 +420,37 @@ def game_scene():
                             # Adding the game variable to the game scene.
                             game.render_block()
 
+        # Checking if any aliens are touching the spaceship.
+        # Using a for loop to go through all the aliens.
+        for alien_number in range(len(aliens)):
+            # Using an if statment to only check the aliens on the screen.
+            if aliens[alien_number].x > 0:
+                # Using the collison detection to see if there is any collisions between sprites.
+                if stage.collide(aliens[alien_number].x + 1, aliens[alien_number].y,
+                                  aliens[alien_number].x + 15, alien[alien_number].y + 15,
+                                  ship.x, ship.y,
+                                  ship.x + 15, ship.y + 15):
+                    # The alien and the ship have collided.
+                    # Stopping all sound.
+                    sound.stop()
+                    # Playing the crash sound.
+                    crash_sound = open("crash.wav", "rb")
+                    sound.play(crash_sound)
+                    # Pausing for 3 seconds.
+                    time.sleep(3.0)
+                    # Go to the game_over_scene().
+                    # Passing the score to display that in the game_over_scene().
+                    game_over_scene(score)
+
         # Redraw sprites to move the sprite around and not affect the background which will not change.
         game.render_sprites(lasers + [ship] + aliens)
         # Will wait until one 60th of a second has happened and then re-loop.
         # This will guarantee that we have a 60 second refresh rate for the background.
         game.tick()
+
+# Function for when the game is over.
+def game_over_scene(final_score):
+    # NEED TO ADD CODE TO GO INSIDE THIS FUNCTION.
 
 
 if __name__ == "__main__":
