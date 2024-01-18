@@ -374,7 +374,7 @@ def game_scene():
 
                     # Adding the game variable to the game scene.
                     game.render_block()
-              
+
 
         # Using a for loop to go through the list of lasers.
         for laser_number in range(len(lasers)):
@@ -427,7 +427,7 @@ def game_scene():
             if aliens[alien_number].x > 0:
                 # Using the collison detection to see if there is any collisions between sprites.
                 if stage.collide(aliens[alien_number].x + 1, aliens[alien_number].y,
-                                  aliens[alien_number].x + 15, alien[alien_number].y + 15,
+                                  aliens[alien_number].x + 15, aliens[alien_number].y + 15,
                                   ship.x, ship.y,
                                   ship.x + 15, ship.y + 15):
                     # The alien and the ship have collided.
@@ -450,8 +450,62 @@ def game_scene():
 
 # Function for when the game is over.
 def game_over_scene(final_score):
-    # NEED TO ADD CODE TO GO INSIDE THIS FUNCTION.
+    # Using the mt_game_studio image to display in the game_over_scene.
+    image_bank_2 = stage.Bank.from_bmp16("mt_game_studio.bmp")
+    # Setting the background to the image 0 in the image bank.
+    background = stage.Grid(image_bank_2, constants.SCREEN_GRID_X,
+                             constants.SCREEN_GRID_Y)
+    # Adding text to the PyBadge screen.
+    # Creating a list for the texts to be displayed.
+    text = []
+    # Created text1 variable which allows us to style our writing that will display on the game_over_scene.
+    text1 = stage.Text(width=29, height=14, font=None, palette=constants.RED_PALLETTE, buffer=None)
+    # Setting the text to be at 22 and 20 pixles on the screen.
+    text1.move(22,20)
+    # Displaying the final score.
+    text1.text("Final score: {:0>2d}".format(final_score))
+    #Appending the text to the list.
+    text.append(text1)
 
+    # Created text2 variable which allows us to style our writing that will display on the game_over_scene.
+    text2 = stage.Text(width=29, height=14, font=None, palette=constants.RED_PALLETTE, buffer=None)
+    # Setting the text to be at 43 and 60 pixels on the screen.
+    text2.move(43,60)
+    # Displaying the game over message.
+    text2.text("Game Over!")
+    # Appending the text to the list.
+    text.append(text2)
+  
+    # Created text1 variable which allows us to style our writing that will display on the game_over_scene.
+    text3 = stage.Text(width=29, height=14, font=None, palette=constants.RED_PALLETTE, buffer=None)
+    # Setting the text to be at 32 and 110 pixels on the screen.
+    text3.move(32,110)
+    # Displaying the play again message.
+    text3.text("Press Select.")
+    # Displaying the text to the screen.
+    text.append(text3)
+
+    # Game variable which will display on the PyBadge and refresh it with 60 hertz.
+    game = stage.Stage(ugame.display, constants.FPS)
+    # Adding images to display from the bmp file and text.
+    game.layers = text + [background]
+    # Adding the text variable to the game_over_scene.
+    game.render_block()
+
+    # Using a while loop to check if the select button has been pressed on the PyBadge.
+    while True:
+      # Getting user input.
+      # Figuring out what buttons are being pressed on the PyBadge.
+      keys= ugame.buttons.get_pressed()
+
+      # Using an if statement to check if the select button has been pressed.
+      if keys & ugame.K_SELECT != 0:
+        # If it has reload the PyBadge to restart the game.
+        supervisor.reload()
+
+      # Updating the game logic.
+      # Waiting unitl the refresh rate is reached.
+      game.tick()
 
 if __name__ == "__main__":
     splash_scene()
