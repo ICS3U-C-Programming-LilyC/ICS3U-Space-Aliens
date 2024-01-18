@@ -136,18 +136,17 @@ def menu_scene():
 
 
 def game_scene():
-
     # Adding a score.
     score = 0
 
     # Creating the width and height of the text on the PyBadge screen.
-    score_text = stage.Text(width=29,height=14)
+    score_text = stage.Text(width=29, height=14)
     # Clearing the score.
     score_text.clear()
     # Moving our cursor to the origin.
-    score_text.cursor(0,0)
+    score_text.cursor(0, 0)
     # Moving where the score is displayed slightly down.
-    score_text.move(1,1)
+    score_text.move(1, 1)
     # Printing the user's score to the Pybadge.
     score_text.text("Score: {0}".format(score))
 
@@ -363,9 +362,9 @@ def game_scene():
                     # Refreshing the score text, without having to refresh the whole PyBadge.
                     score_text.clear()
                     # Moving our cursor to the origin.
-                    score_text.cursor(0,0)
+                    score_text.cursor(0, 0)
                     # Moving where the score is displayed slightly down.
-                    score_text.move(1,1)
+                    score_text.move(1, 1)
                     # Displaying the score on the PyBadge.
                     score_text.text("Score: {0}".format(score))
 
@@ -374,7 +373,6 @@ def game_scene():
 
                     # Adding the game variable to the game scene.
                     game.render_block()
-
 
         # Using a for loop to go through the list of lasers.
         for laser_number in range(len(lasers)):
@@ -385,21 +383,30 @@ def game_scene():
                     # Checking if the laser is on the screen.
                     if aliens[alien_number].x > 0:
                         # Creating the bounding box for the lasers and aliens to be able to detect a collision.
-                        if stage.collide(lasers[laser_number].x + 6, lasers[laser_number].y + 2,
-                                        lasers[laser_number].x + 11, lasers[laser_number].y + 12,
-                                        aliens[alien_number].x + 1, aliens[alien_number].y,
-                                        aliens[alien_number].x + 15, aliens[alien_number].y + 15):
-
+                        if stage.collide(
+                            lasers[laser_number].x + 6,
+                            lasers[laser_number].y + 2,
+                            lasers[laser_number].x + 11,
+                            lasers[laser_number].y + 12,
+                            aliens[alien_number].x + 1,
+                            aliens[alien_number].y,
+                            aliens[alien_number].x + 15,
+                            aliens[alien_number].y + 15,
+                        ):
                             # You hit an alien.
                             # Making both the laser and alien disappear off the screen after colliding.
-                            aliens[alien_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
-                            lasers[laser_number].move(constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y)
+                            aliens[alien_number].move(
+                                constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+                            )
+                            lasers[laser_number].move(
+                                constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+                            )
                             # Stopping all sound effects.
                             sound.stop()
                             # Playing the explosion sound.
                             boom_sound = open("boom.wav", "rb")
                             sound.play(boom_sound)
-                            # Calling show_alien function twice to place 2 aliens back at the top of the screen. 
+                            # Calling show_alien function twice to place 2 aliens back at the top of the screen.
                             show_alien()
                             show_alien()
                             # Score increases by 1 when an alien is shot.
@@ -408,14 +415,16 @@ def game_scene():
                             # Clear text.
                             score_text.clear()
                             # Moving our cursor to the origin.
-                            score_text.cursor(0,0)
+                            score_text.cursor(0, 0)
                             # Moving where the score is displayed slightly down.
-                            score_text.move(1,1)
+                            score_text.move(1, 1)
                             # Displaying the score on the PyBadge.
                             score_text.text("Score: {0}".format(score))
 
                             # Adding images to a list to display the first image in the pbm file.
-                            game.layers = [score_text] + lasers + [ship] + aliens + [background]
+                            game.layers = (
+                                [score_text] + lasers + [ship] + aliens + [background]
+                            )
 
                             # Adding the game variable to the game scene.
                             game.render_block()
@@ -423,13 +432,19 @@ def game_scene():
         # Checking if any aliens are touching the spaceship.
         # Using a for loop to go through all the aliens.
         for alien_number in range(len(aliens)):
-            # Using an if statment to only check the aliens on the screen.
+            # Using an if statement to only check the aliens on the screen.
             if aliens[alien_number].x > 0:
-                # Using the collison detection to see if there is any collisions between sprites.
-                if stage.collide(aliens[alien_number].x + 1, aliens[alien_number].y,
-                                  aliens[alien_number].x + 15, aliens[alien_number].y + 15,
-                                  ship.x, ship.y,
-                                  ship.x + 15, ship.y + 15):
+                # Using collision detection to see if there are any collisions between sprites.
+                if stage.collide(
+                    aliens[alien_number].x + 1,
+                    aliens[alien_number].y,
+                    aliens[alien_number].x + 15,
+                    aliens[alien_number].y + 15,
+                    ship.x,
+                    ship.y,
+                    ship.x + 15,
+                    ship.y + 15,
+                ):
                     # The alien and the ship have collided.
                     # Stopping all sound.
                     sound.stop()
@@ -448,38 +463,46 @@ def game_scene():
         # This will guarantee that we have a 60 second refresh rate for the background.
         game.tick()
 
+
 # Function for when the game is over.
 def game_over_scene(final_score):
     # Using the mt_game_studio image to display in the game_over_scene.
     image_bank_2 = stage.Bank.from_bmp16("mt_game_studio.bmp")
     # Setting the background to the image 0 in the image bank.
-    background = stage.Grid(image_bank_2, constants.SCREEN_GRID_X,
-                             constants.SCREEN_GRID_Y)
+    background = stage.Grid(
+        image_bank_2, constants.SCREEN_GRID_X, constants.SCREEN_GRID_Y
+    )
     # Adding text to the PyBadge screen.
     # Creating a list for the texts to be displayed.
     text = []
     # Created text1 variable which allows us to style our writing that will display on the game_over_scene.
-    text1 = stage.Text(width=29, height=14, font=None, palette=constants.RED_PALLETTE, buffer=None)
-    # Setting the text to be at 22 and 20 pixles on the screen.
-    text1.move(22,20)
+    text1 = stage.Text(
+        width=29, height=14, font=None, palette=constants.RED_PALLETTE, buffer=None
+    )
+    # Setting the text to be at 22 and 20 pixels on the screen.
+    text1.move(22, 20)
     # Displaying the final score.
     text1.text("Final score: {:0>2d}".format(final_score))
-    #Appending the text to the list.
+    # Appending the text to the list.
     text.append(text1)
 
     # Created text2 variable which allows us to style our writing that will display on the game_over_scene.
-    text2 = stage.Text(width=29, height=14, font=None, palette=constants.RED_PALLETTE, buffer=None)
+    text2 = stage.Text(
+        width=29, height=14, font=None, palette=constants.RED_PALLETTE, buffer=None
+    )
     # Setting the text to be at 43 and 60 pixels on the screen.
-    text2.move(43,60)
+    text2.move(43, 60)
     # Displaying the game over message.
     text2.text("Game Over!")
     # Appending the text to the list.
     text.append(text2)
-  
+
     # Created text1 variable which allows us to style our writing that will display on the game_over_scene.
-    text3 = stage.Text(width=29, height=14, font=None, palette=constants.RED_PALLETTE, buffer=None)
+    text3 = stage.Text(
+        width=29, height=14, font=None, palette=constants.RED_PALLETTE, buffer=None
+    )
     # Setting the text to be at 32 and 110 pixels on the screen.
-    text3.move(32,110)
+    text3.move(32, 110)
     # Displaying the play again message.
     text3.text("Press Select.")
     # Displaying the text to the screen.
@@ -494,18 +517,19 @@ def game_over_scene(final_score):
 
     # Using a while loop to check if the select button has been pressed on the PyBadge.
     while True:
-      # Getting user input.
-      # Figuring out what buttons are being pressed on the PyBadge.
-      keys= ugame.buttons.get_pressed()
+        # Getting user input.
+        # Figuring out what buttons are being pressed on the PyBadge.
+        keys = ugame.buttons.get_pressed()
 
-      # Using an if statement to check if the select button has been pressed.
-      if keys & ugame.K_SELECT != 0:
-        # If it has reload the PyBadge to restart the game.
-        supervisor.reload()
+        # Using an if statement to check if the select button has been pressed.
+        if keys & ugame.K_SELECT != 0:
+            # If it has reloaded the PyBadge to restart the game.
+            supervisor.reload()
 
-      # Updating the game logic.
-      # Waiting unitl the refresh rate is reached.
-      game.tick()
+        # Updating the game logic.
+        # Waiting until the refresh rate is reached.
+        game.tick()
+
 
 if __name__ == "__main__":
     splash_scene()
