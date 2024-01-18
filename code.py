@@ -81,6 +81,10 @@ def splash_scene():
 
 # This function is for my menu game scene.
 def menu_scene():
+    # Adding lives
+    lives = 3
+    # Adding a score.
+    score = 0
     # Importing background image (White Screen).
     image_bank_background = stage.Bank.from_bmp16("mt_game_studio.bmp")
 
@@ -129,16 +133,13 @@ def menu_scene():
 
         # If the START button is being pressed then go to game_scene().
         if keys & ugame.K_START != 0:
-            game_scene()
+            game_scene(score, lives)
 
         # This will guarantee that we have a 60 second refresh rate for the background.
         game.tick()
 
 
-def game_scene():
-    # Adding a score.
-    score = 0
-
+def game_scene(score, lives):
     # Creating the width and height of the text on the PyBadge screen.
     score_text = stage.Text(width=29, height=14)
     # Clearing the score.
@@ -149,6 +150,17 @@ def game_scene():
     score_text.move(1, 1)
     # Printing the user's score to the Pybadge.
     score_text.text("Score: {0}".format(score))
+
+    # Creating the width and height of the text on the PyBadge screen.
+    lives_text = stage.Text(width=29, height=14)
+    # Clearing lives.
+    lives_text.clear()
+    # Moving our cursor to the origin.
+    lives_text.cursor(0, 0)
+    # Moving where the lives are displayed slightly down.
+    lives_text.move(95, 1)
+    # Printing the user's lives to the Pybadge.
+    lives_text.text("Lives: {0}".format(lives))
 
     # Function that will remove an alien off the screen and put it onto the screen.
     def show_alien():
@@ -241,7 +253,7 @@ def game_scene():
     game = stage.Stage(ugame.display, 60)
 
     # Adding images to a list to display the first image in the pbm file.
-    game.layers = [score_text] + lasers + [ship] + aliens + [background]
+    game.layers = [lives_text] +[score_text] + lasers + [ship] + aliens + [background]
 
     # Adding the game variable to the game scene.
     game.render_block()
@@ -369,7 +381,7 @@ def game_scene():
                     score_text.text("Score: {0}".format(score))
 
                     # Adding images to a list to display the first image in the pbm file.
-                    game.layers = [score_text] + lasers + [ship] + aliens + [background]
+                    game.layers = [lives_text] + [score_text] + lasers + [ship] + aliens + [background]
 
                     # Adding the game variable to the game scene.
                     game.render_block()
@@ -423,7 +435,7 @@ def game_scene():
 
                             # Adding images to a list to display the first image in the pbm file.
                             game.layers = (
-                                [score_text] + lasers + [ship] + aliens + [background]
+                                [score_text] + [lives_text] + lasers + [ship] + aliens + [background]
                             )
 
                             # Adding the game variable to the game scene.
@@ -455,7 +467,19 @@ def game_scene():
                     time.sleep(3.0)
                     # Go to the game_over_scene().
                     # Passing the score to display that in the game_over_scene().
-                    game_over_scene(score)
+                    aliens[alien_number].move(
+                        constants.OFF_SCREEN_X, constants.OFF_SCREEN_Y
+                    )
+                    if lives > 0:
+                        lives = lives - 1
+                        lives_text.clear()
+                        lives_text.cursor(0, 0)
+                        lives_text.move(95, 1)
+                        lives_text.text("Lives: {0}".format(lives))
+                        game_scene(score, lives)
+
+                    if lives <= 0:
+                        game_over_scene(score)
 
         # Redraw sprites to move the sprite around and not affect the background which will not change.
         game.render_sprites(lasers + [ship] + aliens)
