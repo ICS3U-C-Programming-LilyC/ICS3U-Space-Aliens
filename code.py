@@ -253,7 +253,7 @@ def game_scene(score, lives):
     game = stage.Stage(ugame.display, 60)
 
     # Adding images to a list to display the first image in the pbm file.
-    game.layers = [lives_text] +[score_text] + lasers + [ship] + aliens + [background]
+    game.layers = [lives_text] + [score_text] + lasers + [ship] + aliens + [background]
 
     # Adding the game variable to the game scene.
     game.render_block()
@@ -381,7 +381,14 @@ def game_scene(score, lives):
                     score_text.text("Score: {0}".format(score))
 
                     # Adding images to a list to display the first image in the pbm file.
-                    game.layers = [lives_text] + [score_text] + lasers + [ship] + aliens + [background]
+                    game.layers = (
+                        [lives_text]
+                        + [score_text]
+                        + lasers
+                        + [ship]
+                        + aliens
+                        + [background]
+                    )
 
                     # Adding the game variable to the game scene.
                     game.render_block()
@@ -435,7 +442,12 @@ def game_scene(score, lives):
 
                             # Adding images to a list to display the first image in the pbm file.
                             game.layers = (
-                                [score_text] + [lives_text] + lasers + [ship] + aliens + [background]
+                                [score_text]
+                                + [lives_text]
+                                + lasers
+                                + [ship]
+                                + aliens
+                                + [background]
                             )
 
                             # Adding the game variable to the game scene.
