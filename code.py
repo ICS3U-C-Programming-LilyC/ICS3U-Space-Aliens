@@ -15,7 +15,7 @@ import supervisor
 def splash_scene():
     # Need to also download the sound file onto the PyBadge.
     # Sound that will play when the splash scene is displayed on PyBadge.
-    coin_sound = open("coin.wav", "rb")
+    gong_sound = open("gong.wav", "rb")
     # To allow for the use of sound objects (audio).
     sound = ugame.audio
     # Stopping the sound.
@@ -23,7 +23,7 @@ def splash_scene():
     # Not allowing for the sound to be muted.
     sound.mute(False)
     # Playing the sound from the file.
-    sound.play(coin_sound)
+    sound.play(gong_sound)
 
     # Importing background image (White Screen).
     image_bank_mt_background = stage.Bank.from_bmp16("mt_game_studio.bmp")
@@ -199,7 +199,7 @@ def game_scene(score, lives, is_muted):
     select_button = constants.button_state["button_up"]
 
     # Creating a sound variable that will take the sound from my pew.wav file and assign it to the sound variable.
-    pew_sound = open("pew.wav", "rb")
+    pew_sound = open("click_x.wav", "rb")
     # To allow for the use of sound objects (audio).
     sound = ugame.audio
     # Stopping the sound.
@@ -440,8 +440,8 @@ def game_scene(score, lives, is_muted):
                             # Stopping all sound effects.
                             sound.stop()
                             # Playing the explosion sound.
-                            boom_sound = open("boom.wav", "rb")
-                            sound.play(boom_sound)
+                            bell_sound = open("boxing_bell.wav", "rb")
+                            sound.play(bell_sound)
                             # Calling show_alien function twice to place 2 aliens back at the top of the screen.
                             show_alien()
                             show_alien()
@@ -490,7 +490,7 @@ def game_scene(score, lives, is_muted):
                     # Stopping all sound.
                     sound.stop()
                     # Playing the crash sound.
-                    crash_sound = open("crash.wav", "rb")
+                    crash_sound = open("boing2.wav", "rb")
                     sound.play(crash_sound)
                     # Pausing for 3 seconds.
                     time.sleep(3.0)
