@@ -125,6 +125,9 @@ def menu_scene():
     # Adding the game variable to the game scene.
     game.render_block()
 
+    # Declaring mute variable.
+    is_muted = 0
+
     # Using a while True loop to repeat my game forever until the user turns it off (gaming loop).
     while True:
         # Going to get user input.
@@ -133,13 +136,13 @@ def menu_scene():
 
         # If the START button is being pressed then go to game_scene().
         if keys & ugame.K_START != 0:
-            game_scene(score, lives)
+            game_scene(score, lives, is_muted)
 
         # This will guarantee that we have a 60 second refresh rate for the background.
         game.tick()
 
 
-def game_scene(score, lives):
+def game_scene(score, lives, is_muted):
     # Creating the width and height of the text on the PyBadge screen.
     score_text = stage.Text(width=29, height=14)
     # Clearing the score.
@@ -291,7 +294,14 @@ def game_scene(score, lives):
 
         # If the SELECT button is being pressed then it returns "Select".
         if keys & ugame.K_SELECT != 0:
-            pass
+            # Checking if the select button is being pressed to mute.
+            if is_muted == 0:
+                ugame.audio.mute(True)
+                is_muted = 1
+            else:
+                ugame.audio.mute(False)
+                is_muted = 0
+
         # If the right button is being pressed then it moves the ship right (by 1 pixel) from its current position along the x direction.
         if keys & ugame.K_RIGHT != 0:
             # Using an if statement to check if the ship's position is less than or equal to 160 pixels then we can move the ship over.
@@ -299,16 +309,16 @@ def game_scene(score, lives):
                 ship.move(ship.x + 1, ship.y)
                 # Otherwise set it to 0 to keep the ship from moving off the screen.
             else:
-                ship.move(constants.SCREEN_X - constants.SPRITE_SIZE, ship.y)
+                ship.move(0, ship.y)
 
         # If the left button is being pressed then it moves the ship left (by 1 pixel) from its current position along the y direction.
         if keys & ugame.K_LEFT != 0:
             # Using an if statement to allow the ship to go right up to the edge of the Pybadge screen.
             if ship.x >= 0:
-                ship.move(ship.x - 1, ship.y)
+                ship.move(ship.x - constants.SPRITE_MOVEMENT_SPEED, ship.y)
             # Otherwise set it to 0 to keep the ship from moving off the screen.
             else:
-                ship.move(0, ship.y)
+                ship.move(constants.SCREEN_X - constants.SPRITE_SIZE, ship.y)
 
         # If the up button is being pressed it moves the ship up (by 1 pixel) by decreasing the y direction.
         if keys & ugame.K_UP != 0:
@@ -488,7 +498,7 @@ def game_scene(score, lives):
                         lives_text.cursor(0, 0)
                         lives_text.move(95, 1)
                         lives_text.text("Lives: {0}".format(lives))
-                        game_scene(score, lives)
+                        game_scene(score, lives, is_muted)
 
                     if lives <= 0:
                         game_over_scene(score)
@@ -498,7 +508,6 @@ def game_scene(score, lives):
         # Will wait until one 60th of a second has happened and then re-loop.
         # This will guarantee that we have a 60 second refresh rate for the background.
         game.tick()
-
 
 # Function for when the game is over.
 def game_over_scene(final_score):
