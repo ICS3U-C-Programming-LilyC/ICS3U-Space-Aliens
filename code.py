@@ -424,10 +424,10 @@ def game_scene(score, lives, is_muted):
                             lasers[laser_number].y + 2,
                             lasers[laser_number].x + 11,
                             lasers[laser_number].y + 12,
-                            aliens[alien_number].x + 1,
-                            aliens[alien_number].y,
-                            aliens[alien_number].x + 15,
-                            aliens[alien_number].y + 15,
+                            aliens[alien_number].x + - 2,
+                            aliens[alien_number].y - 1,
+                            aliens[alien_number].x + 10,
+                            aliens[alien_number].y + 10,
                         ):
                             # You hit an alien.
                             # Making both the laser and alien disappear off the screen after colliding.
@@ -477,14 +477,14 @@ def game_scene(score, lives, is_muted):
             if aliens[alien_number].x > 0:
                 # Using collision detection to see if there are any collisions between sprites.
                 if stage.collide(
-                    aliens[alien_number].x + 1,
-                    aliens[alien_number].y,
-                    aliens[alien_number].x + 15,
-                    aliens[alien_number].y + 15,
+                    aliens[alien_number].x - 2,
+                    aliens[alien_number].y - 1,
+                    aliens[alien_number].x + 10,
+                    aliens[alien_number].y + 10,
                     ship.x,
                     ship.y,
-                    ship.x + 15,
-                    ship.y + 15,
+                    ship.x + 10,
+                    ship.y + 10,
                 ):
                     # The alien and the ship have collided.
                     # Stopping all sound.
